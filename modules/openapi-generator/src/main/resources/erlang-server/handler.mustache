@@ -152,7 +152,8 @@ valid_content_headers(Req, State) ->
 
 content_types_provided(Req, State) ->
     {[
-        {<<"application/json">>, handle_request_json}
+        {<<"application/json">>, handle_request_json},
+        {<<"application/x-pem-file">>, handle_request_json}
     ], Req, State}.
 
 -spec malformed_request(Req :: cowboy_req:req(), State :: state()) ->
