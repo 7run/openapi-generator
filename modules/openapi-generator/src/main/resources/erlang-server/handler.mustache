@@ -15,7 +15,7 @@
 -export([valid_entity_length/2]).
 
 %% Handlers
--export([handle_request_json/2]).
+-export([handle_request_json/2, handle_request_file/2]).
 
 -record(state, {
     operation_id :: {{packageName}}_api:operation_id(),
@@ -153,7 +153,7 @@ valid_content_headers(Req, State) ->
 content_types_provided(Req, State) ->
     {[
         {<<"application/json">>, handle_request_json},
-        {<<"application/x-pem-file">>, handle_request_json}
+        {<<"application/x-pem-file">>, handle_request_file}
     ], Req, State}.
 
 -spec malformed_request(Req :: cowboy_req:req(), State :: state()) ->
@@ -238,6 +238,36 @@ handle_request_json(
             ),
             PreparedBody = prepare_body(Code, Body),
             Response = {ok, {Code, Headers, PreparedBody}},
+            process_response(Response, Req1, State);
+        {error, Reason, Req1} ->
+            process_response({error, Reason}, Req1, State)
+    end.
+
+-spec handle_request_file(cowboy_req:req(), state()) -> processed_response().
+
+handle_request_file(
+    Req0,
+    State = #state{
+        operation_id = OperationID,
+        logic_handler = LogicHandler,
+        validator_state = ValidatorState
+    }
+) ->
+    case {{packageName}}_api:populate_request(OperationID, Req0, ValidatorState) of
+        {ok, Populated, Req1} ->
+            {Code, Headers, Body} = {{packageName}}_logic_handler:handle_request(
+                LogicHandler,
+                OperationID,
+                Req1,
+                maps:merge(State#state.context, Populated)
+            ),
+            _ = {{packageName}}_api:validate_response(
+                OperationID,
+                Code,
+                Body,
+                ValidatorState
+            ),
+            Response = {ok, {Code, Headers, Body}},
             process_response(Response, Req1, State);
         {error, Reason, Req1} ->
             process_response({error, Reason}, Req1, State)
