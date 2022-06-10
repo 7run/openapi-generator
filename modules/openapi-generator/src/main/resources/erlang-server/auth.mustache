@@ -26,8 +26,10 @@ authorize_api_key(LogicHandler, OperationID, From, KeyParam, Req0) ->
             case Result of
               {{#authMethods}}
                 {{#isApiKey}}
+                {{#-first}}
                 {true, Context}  ->
                     {true, Context, Req};
+                {{/-first}}
                 {{/isApiKey}}
               {{/authMethods}}
                 false ->
