@@ -4,17 +4,20 @@
 
 -export([handle_request/3]).
 {{#authMethods}}
-    {{#isApiKey}}
+{{#isApiKey}}
+{{#-first}}
 -export([authorize_api_key/2]).
-    {{/isApiKey}}
+{{/-first}}
+{{/isApiKey}}
 {{/authMethods}}
 
 {{#authMethods}}
-    {{#isApiKey}}
+{{#isApiKey}}
+{{#-first}}
 -spec authorize_api_key(OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) -> {true, #{}}.
-
 authorize_api_key(_, _) -> {true, #{}}.
-    {{/isApiKey}}
+{{/-first}}
+{{/isApiKey}}
 {{/authMethods}}
 
 -spec handle_request(
@@ -23,7 +26,6 @@ authorize_api_key(_, _) -> {true, #{}}.
     Context :: #{}
 ) ->
     {Status :: cowboy:http_status(), Headers :: cowboy:http_headers(), Body :: jsx:json_term()}.
-
 handle_request(OperationID, Req, Context) ->
     error_logger:error_msg(
         "Got not implemented request to process: ~p~n",

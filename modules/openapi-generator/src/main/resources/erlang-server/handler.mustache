@@ -65,6 +65,7 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
+
 {{#operations}}
 {{#operation}}
 {{#authMethods}}
@@ -106,13 +107,19 @@ is_authorized(
 {{/authMethods}}
 {{/operation}}
 {{/operations}}
+
 {{^authMethods}}
+{{#-first}}
 is_authorized(Req, State) ->
     {true, Req, State}.
+{{/-first}}
 {{/authMethods}}
+
 {{#authMethods}}
+{{#-first}}
 is_authorized(Req, State) ->
     {{false, <<"">>}, Req, State}.
+{{/-first}}
 {{/authMethods}}
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
