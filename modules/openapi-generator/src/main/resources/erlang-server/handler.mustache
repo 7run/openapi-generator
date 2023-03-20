@@ -269,7 +269,8 @@ handle_request_file(
                 Body,
                 ValidatorState
             ),
-            Response = {ok, {Code, Headers, Body}},
+            PreparedBody = prepare_body(Code, Body),
+            Response = {ok, {Code, Headers, PreparedBody}},
             process_response(Response, Req1, State);
         {error, Reason, Req1} ->
             process_response({error, Reason}, Req1, State)
@@ -281,5 +282,7 @@ prepare_body(204, Body) when map_size(Body) == 0; length(Body) == 0 ->
     <<>>;
 prepare_body(304, Body) when map_size(Body) == 0; length(Body) == 0 ->
     <<>>;
+prepare_body(_Code, Body) when is_map(Body); is_list(Body) ->
+    jsx:encode(Body);
 prepare_body(_Code, Body) ->
-    jsx:encode(Body).
+    Body.
