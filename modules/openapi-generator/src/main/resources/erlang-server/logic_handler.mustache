@@ -5,13 +5,13 @@
 {{#authMethods}}
 {{#isApiKey}}
 {{#-first}}
--export([authorize_api_key/3]).
+-export([authorize_api_key/4]).
 {{/-first}}
 {{/isApiKey}}
 {{/authMethods}}
 
 {{^authMethods}}
--export([authorize_api_key/3]).
+-export([authorize_api_key/4]).
 {{/authMethods}}
 
 -type context() :: #{binary() => any()}.
@@ -28,7 +28,8 @@
 {{#-first}}
 -callback authorize_api_key(
     OperationID :: {{packageName}}_api:operation_id(),
-    ApiKey :: binary()
+    ApiKey :: binary(),
+    Req :: cowboy_req:req()
 ) ->
     Result :: boolean() | {boolean(), context()}.
 {{/-first}}
@@ -53,17 +54,17 @@ handle_request(Handler, OperationID, Req, Context) ->
 {{#authMethods}}
 {{#isApiKey}}
 {{#-first}}
--spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) ->
+-spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary(), Req :: cowboy_req:req()) ->
     Result :: false | {true, context()}.
-authorize_api_key(Handler, OperationID, ApiKey) ->
-    Handler:authorize_api_key(OperationID, ApiKey).
+authorize_api_key(Handler, OperationID, ApiKey, Req) ->
+    Handler:authorize_api_key(OperationID, ApiKey, Req).
 {{/-first}}
 {{/isApiKey}}
 {{/authMethods}}
 
 {{^authMethods}}
--spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) ->
+-spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary(), Req :: cowboy_req:req()) ->
     Result :: false.
-authorize_api_key(_Handler, _OperationID, _ApiKey) ->
+authorize_api_key(_Handler, _OperationID, _ApiKey, _Req) ->
     false.
 {{/authMethods}}

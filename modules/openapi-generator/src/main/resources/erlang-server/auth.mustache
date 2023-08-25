@@ -21,7 +21,8 @@ authorize_api_key(LogicHandler, OperationID, From, KeyParam, Req0) ->
             Result = {{packageName}}_logic_handler:authorize_api_key(
                 LogicHandler,
                 OperationID,
-                ApiKey
+                ApiKey,
+                Req
             ),
             case Result of
               {{#authMethods}}
