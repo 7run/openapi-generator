@@ -6,7 +6,7 @@
 {{#authMethods}}
 {{#isApiKey}}
 {{#-first}}
--export([authorize_api_key/2]).
+-export([authorize_api_key/3]).
 {{/-first}}
 {{/isApiKey}}
 {{/authMethods}}
@@ -14,8 +14,8 @@
 {{#authMethods}}
 {{#isApiKey}}
 {{#-first}}
--spec authorize_api_key(OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) -> {true, #{}}.
-authorize_api_key(_, _) -> {true, #{}}.
+-spec authorize_api_key(OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary(), Req :: cowboy_req:req()) -> {true, #{}}.
+authorize_api_key(_, _, _) -> {true, #{}}.
 {{/-first}}
 {{/isApiKey}}
 {{/authMethods}}
