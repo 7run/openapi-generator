@@ -33,12 +33,19 @@ export interface Category {
     name?: string;
 }
 
+/**
+ * Check if a given object implements the Category interface.
+ */
+export function instanceOfCategory(value: object): boolean {
+    return true;
+}
+
 export function CategoryFromJSON(json: any): Category {
     return CategoryFromJSONTyped(json, false);
 }
 
 export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): Category {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -57,8 +64,8 @@ export function CategoryToJSON(value?: Category | null): any {
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
+        'id': value['id'],
+        'name': value['name'],
     };
 }
 

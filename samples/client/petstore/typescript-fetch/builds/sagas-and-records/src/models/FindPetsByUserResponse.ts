@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ResponseMeta } from './ResponseMeta';
 import {
-    ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
 } from './ResponseMeta';
+import type { User } from './User';
 import {
-    User,
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
@@ -46,12 +46,20 @@ export interface FindPetsByUserResponse {
     data?: Array<User>;
 }
 
+/**
+ * Check if a given object implements the FindPetsByUserResponse interface.
+ */
+export function instanceOfFindPetsByUserResponse(value: object): boolean {
+    if (!('meta' in value)) return false;
+    return true;
+}
+
 export function FindPetsByUserResponseFromJSON(json: any): FindPetsByUserResponse {
     return FindPetsByUserResponseFromJSONTyped(json, false);
 }
 
 export function FindPetsByUserResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FindPetsByUserResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -70,8 +78,8 @@ export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | nu
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data === undefined ? undefined : ((value.data as Array<any>).map(UserToJSON)),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': !exists(value, 'data') ? undefined : ((value['data'] as Array<any>).map(UserToJSON)),
     };
 }
 

@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ResponseMeta } from './ResponseMeta';
 import {
-    ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
@@ -40,12 +40,20 @@ export interface GetBehaviorPermissionsResponse {
     data?: { [key: string]: boolean; };
 }
 
+/**
+ * Check if a given object implements the GetBehaviorPermissionsResponse interface.
+ */
+export function instanceOfGetBehaviorPermissionsResponse(value: object): boolean {
+    if (!('meta' in value)) return false;
+    return true;
+}
+
 export function GetBehaviorPermissionsResponseFromJSON(json: any): GetBehaviorPermissionsResponse {
     return GetBehaviorPermissionsResponseFromJSONTyped(json, false);
 }
 
 export function GetBehaviorPermissionsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorPermissionsResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -64,8 +72,8 @@ export function GetBehaviorPermissionsResponseToJSON(value?: GetBehaviorPermissi
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data,
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': value['data'],
     };
 }
 

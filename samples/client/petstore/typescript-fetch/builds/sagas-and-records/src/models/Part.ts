@@ -33,12 +33,21 @@ export interface Part {
     name: string;
 }
 
+/**
+ * Check if a given object implements the Part interface.
+ */
+export function instanceOfPart(value: object): boolean {
+    if (!('id' in value)) return false;
+    if (!('name' in value)) return false;
+    return true;
+}
+
 export function PartFromJSON(json: any): Part {
     return PartFromJSONTyped(json, false);
 }
 
 export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -57,8 +66,8 @@ export function PartToJSON(value?: Part | null): any {
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
+        'id': value['id'],
+        'name': value['name'],
     };
 }
 

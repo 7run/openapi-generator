@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Pet } from './Pet';
 import {
-    Pet,
     PetFromJSON,
     PetFromJSONTyped,
     PetToJSON,
 } from './Pet';
+import type { ResponseMeta } from './ResponseMeta';
 import {
-    ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
@@ -46,12 +46,20 @@ export interface FindPetsByStatusResponse {
     data?: Array<Pet>;
 }
 
+/**
+ * Check if a given object implements the FindPetsByStatusResponse interface.
+ */
+export function instanceOfFindPetsByStatusResponse(value: object): boolean {
+    if (!('meta' in value)) return false;
+    return true;
+}
+
 export function FindPetsByStatusResponseFromJSON(json: any): FindPetsByStatusResponse {
     return FindPetsByStatusResponseFromJSONTyped(json, false);
 }
 
 export function FindPetsByStatusResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FindPetsByStatusResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -70,8 +78,8 @@ export function FindPetsByStatusResponseToJSON(value?: FindPetsByStatusResponse 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data === undefined ? undefined : ((value.data as Array<any>).map(PetToJSON)),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': !exists(value, 'data') ? undefined : ((value['data'] as Array<any>).map(PetToJSON)),
     };
 }
 

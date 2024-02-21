@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { MatchingParts } from './MatchingParts';
 import {
-    MatchingParts,
     MatchingPartsFromJSON,
     MatchingPartsFromJSONTyped,
     MatchingPartsToJSON,
 } from './MatchingParts';
+import type { ResponseMeta } from './ResponseMeta';
 import {
-    ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
@@ -46,12 +46,20 @@ export interface GetMatchingPartsResponse {
     data?: MatchingParts;
 }
 
+/**
+ * Check if a given object implements the GetMatchingPartsResponse interface.
+ */
+export function instanceOfGetMatchingPartsResponse(value: object): boolean {
+    if (!('meta' in value)) return false;
+    return true;
+}
+
 export function GetMatchingPartsResponseFromJSON(json: any): GetMatchingPartsResponse {
     return GetMatchingPartsResponseFromJSONTyped(json, false);
 }
 
 export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetMatchingPartsResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -70,8 +78,8 @@ export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': MatchingPartsToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': MatchingPartsToJSON(value['data']),
     };
 }
 

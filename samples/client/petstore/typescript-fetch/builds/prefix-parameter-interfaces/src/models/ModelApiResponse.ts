@@ -39,12 +39,19 @@ export interface ModelApiResponse {
     message?: string;
 }
 
+/**
+ * Check if a given object implements the ModelApiResponse interface.
+ */
+export function instanceOfModelApiResponse(value: object): boolean {
+    return true;
+}
+
 export function ModelApiResponseFromJSON(json: any): ModelApiResponse {
     return ModelApiResponseFromJSONTyped(json, false);
 }
 
 export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelApiResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -64,9 +71,9 @@ export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
     }
     return {
         
-        'code': value.code,
-        'type': value.type,
-        'message': value.message,
+        'code': value['code'],
+        'type': value['type'],
+        'message': value['message'],
     };
 }
 

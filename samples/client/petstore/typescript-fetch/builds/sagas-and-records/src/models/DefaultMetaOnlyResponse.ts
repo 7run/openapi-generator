@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ResponseMeta } from './ResponseMeta';
 import {
-    ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
@@ -34,12 +34,20 @@ export interface DefaultMetaOnlyResponse {
     meta: ResponseMeta;
 }
 
+/**
+ * Check if a given object implements the DefaultMetaOnlyResponse interface.
+ */
+export function instanceOfDefaultMetaOnlyResponse(value: object): boolean {
+    if (!('meta' in value)) return false;
+    return true;
+}
+
 export function DefaultMetaOnlyResponseFromJSON(json: any): DefaultMetaOnlyResponse {
     return DefaultMetaOnlyResponseFromJSONTyped(json, false);
 }
 
 export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): DefaultMetaOnlyResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -57,7 +65,7 @@ export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
+        'meta': ResponseMetaToJSON(value['meta']),
     };
 }
 

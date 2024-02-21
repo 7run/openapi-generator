@@ -87,12 +87,19 @@ export const FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = {
 export type FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = typeof FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum[keyof typeof FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum];
 
 
+/**
+ * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
+ */
+export function instanceOfFakeEnumRequestGetInline200Response(value: object): boolean {
+    return true;
+}
+
 export function FakeEnumRequestGetInline200ResponseFromJSON(json: any): FakeEnumRequestGetInline200Response {
     return FakeEnumRequestGetInline200ResponseFromJSONTyped(json, false);
 }
 
 export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FakeEnumRequestGetInline200Response {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -113,10 +120,10 @@ export function FakeEnumRequestGetInline200ResponseToJSON(value?: FakeEnumReques
     }
     return {
         
-        'string-enum': value.stringEnum,
-        'nullable-string-enum': value.nullableStringEnum,
-        'number-enum': value.numberEnum,
-        'nullable-number-enum': value.nullableNumberEnum,
+        'string-enum': value['stringEnum'],
+        'nullable-string-enum': value['nullableStringEnum'],
+        'number-enum': value['numberEnum'],
+        'nullable-number-enum': value['nullableNumberEnum'],
     };
 }
 

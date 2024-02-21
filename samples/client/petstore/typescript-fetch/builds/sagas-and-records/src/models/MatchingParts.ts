@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Part } from './Part';
 import {
-    Part,
     PartFromJSON,
     PartFromJSONTyped,
     PartToJSON,
@@ -40,12 +40,21 @@ export interface MatchingParts {
     related: Array<Part>;
 }
 
+/**
+ * Check if a given object implements the MatchingParts interface.
+ */
+export function instanceOfMatchingParts(value: object): boolean {
+    if (!('connected' in value)) return false;
+    if (!('related' in value)) return false;
+    return true;
+}
+
 export function MatchingPartsFromJSON(json: any): MatchingParts {
     return MatchingPartsFromJSONTyped(json, false);
 }
 
 export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boolean): MatchingParts {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -64,8 +73,8 @@ export function MatchingPartsToJSON(value?: MatchingParts | null): any {
     }
     return {
         
-        'connected': ((value.connected as Array<any>).map(PartToJSON)),
-        'related': ((value.related as Array<any>).map(PartToJSON)),
+        'connected': ((value['connected'] as Array<any>).map(PartToJSON)),
+        'related': ((value['related'] as Array<any>).map(PartToJSON)),
     };
 }
 

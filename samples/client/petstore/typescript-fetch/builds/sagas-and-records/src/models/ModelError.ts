@@ -13,8 +13,8 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ItemId } from './ItemId';
 import {
-    ItemId,
     ItemIdFromJSON,
     ItemIdFromJSONTyped,
     ItemIdToJSON,
@@ -52,12 +52,20 @@ export interface ModelError {
     exception?: string;
 }
 
+/**
+ * Check if a given object implements the ModelError interface.
+ */
+export function instanceOfModelError(value: object): boolean {
+    if (!('type' in value)) return false;
+    return true;
+}
+
 export function ModelErrorFromJSON(json: any): ModelError {
     return ModelErrorFromJSONTyped(json, false);
 }
 
 export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelError {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -78,10 +86,10 @@ export function ModelErrorToJSON(value?: ModelError | null): any {
     }
     return {
         
-        'type': value.type,
-        'itemInfo': ItemIdToJSON(value.itemInfo),
-        'details': value.details,
-        'exception': value.exception,
+        'type': value['type'],
+        'itemInfo': ItemIdToJSON(value['itemInfo']),
+        'details': value['details'],
+        'exception': value['exception'],
     };
 }
 

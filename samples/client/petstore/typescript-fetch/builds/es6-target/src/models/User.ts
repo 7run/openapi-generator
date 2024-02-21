@@ -69,12 +69,19 @@ export interface User {
     userStatus?: number;
 }
 
+/**
+ * Check if a given object implements the User interface.
+ */
+export function instanceOfUser(value: object): boolean {
+    return true;
+}
+
 export function UserFromJSON(json: any): User {
     return UserFromJSONTyped(json, false);
 }
 
 export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -99,14 +106,14 @@ export function UserToJSON(value?: User | null): any {
     }
     return {
         
-        'id': value.id,
-        'username': value.username,
-        'firstName': value.firstName,
-        'lastName': value.lastName,
-        'email': value.email,
-        'password': value.password,
-        'phone': value.phone,
-        'userStatus': value.userStatus,
+        'id': value['id'],
+        'username': value['username'],
+        'firstName': value['firstName'],
+        'lastName': value['lastName'],
+        'email': value['email'],
+        'password': value['password'],
+        'phone': value['phone'],
+        'userStatus': value['userStatus'],
     };
 }
 

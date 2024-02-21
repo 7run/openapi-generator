@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { NumberEnum } from './NumberEnum';
 import {
-    NumberEnum,
     NumberEnumFromJSON,
     NumberEnumFromJSONTyped,
     NumberEnumToJSON,
 } from './NumberEnum';
+import type { StringEnum } from './StringEnum';
 import {
-    StringEnum,
     StringEnumFromJSON,
     StringEnumFromJSONTyped,
     StringEnumToJSON,
@@ -43,7 +43,7 @@ export interface EnumPatternObject {
      * @type {StringEnum}
      * @memberof EnumPatternObject
      */
-    nullableStringEnum?: StringEnum | null;
+    nullableStringEnum?: StringEnum;
     /**
      * 
      * @type {NumberEnum}
@@ -55,7 +55,14 @@ export interface EnumPatternObject {
      * @type {NumberEnum}
      * @memberof EnumPatternObject
      */
-    nullableNumberEnum?: NumberEnum | null;
+    nullableNumberEnum?: NumberEnum;
+}
+
+/**
+ * Check if a given object implements the EnumPatternObject interface.
+ */
+export function instanceOfEnumPatternObject(value: object): boolean {
+    return true;
 }
 
 export function EnumPatternObjectFromJSON(json: any): EnumPatternObject {
@@ -63,7 +70,7 @@ export function EnumPatternObjectFromJSON(json: any): EnumPatternObject {
 }
 
 export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumPatternObject {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -84,10 +91,10 @@ export function EnumPatternObjectToJSON(value?: EnumPatternObject | null): any {
     }
     return {
         
-        'string-enum': StringEnumToJSON(value.stringEnum),
-        'nullable-string-enum': StringEnumToJSON(value.nullableStringEnum),
-        'number-enum': NumberEnumToJSON(value.numberEnum),
-        'nullable-number-enum': NumberEnumToJSON(value.nullableNumberEnum),
+        'string-enum': StringEnumToJSON(value['stringEnum']),
+        'nullable-string-enum': StringEnumToJSON(value['nullableStringEnum']),
+        'number-enum': NumberEnumToJSON(value['numberEnum']),
+        'nullable-number-enum': NumberEnumToJSON(value['nullableNumberEnum']),
     };
 }
 

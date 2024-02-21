@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { PetPartType } from './PetPartType';
 import {
-    PetPartType,
     PetPartTypeFromJSON,
     PetPartTypeFromJSONTyped,
     PetPartTypeToJSON,
 } from './PetPartType';
+import type { ResponseMeta } from './ResponseMeta';
 import {
-    ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
@@ -46,12 +46,20 @@ export interface GetPetPartTypeResponse {
     data?: PetPartType;
 }
 
+/**
+ * Check if a given object implements the GetPetPartTypeResponse interface.
+ */
+export function instanceOfGetPetPartTypeResponse(value: object): boolean {
+    if (!('meta' in value)) return false;
+    return true;
+}
+
 export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeResponse {
     return GetPetPartTypeResponseFromJSONTyped(json, false);
 }
 
 export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPetPartTypeResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -70,8 +78,8 @@ export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | nu
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': PetPartTypeToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': PetPartTypeToJSON(value['data']),
     };
 }
 
