@@ -7,7 +7,8 @@
 %% exported to silence openapi complains
 -export([get_value/3, validate_response_body/4]).
 
--type operation_id() :: atom().
+-type operation_id() ::{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+    '{{operationId}}'{{^-last}} |{{/-last}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}.
 -type request_param() :: atom().
 
 -export_type([operation_id/0]).
