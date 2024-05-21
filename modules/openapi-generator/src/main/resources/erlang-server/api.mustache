@@ -8,7 +8,8 @@
 -export([get_value/3, validate_response_body/4]).
 
 -type operation_id() ::{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-    '{{operationId}}'{{^-last}} |{{/-last}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}.
+    '{{operationId}}' |{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+    atom().
 -type request_param() :: atom().
 
 -export_type([operation_id/0]).
