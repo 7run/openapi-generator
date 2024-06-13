@@ -126,7 +126,9 @@ is_authorized(Req, State) ->
 
 content_types_accepted(Req, State) ->
     {[
-        {<<"application/json">>, handle_request_json}
+        {<<"application/json">>, handle_request_json},
+        {<<"application/jose+json">>, handle_request_json},
+        {<<"application/problem+json">>, handle_request_json}
     ], Req, State}.
 
 -spec valid_content_headers(Req :: cowboy_req:req(), State :: state()) ->
@@ -155,6 +157,8 @@ valid_content_headers(Req, State) ->
 content_types_provided(Req, State) ->
     {[
         {<<"application/json">>, handle_request_json},
+        {<<"application/jose+json">>, handle_request_json},
+        {<<"application/problem+json">>, handle_request_json},
         {<<"application/x-pem-file">>, handle_request_file}
     ], Req, State}.
 
