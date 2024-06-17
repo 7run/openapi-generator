@@ -177,7 +177,6 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("operation_id.hrl.mustache", "", toIncludeFilePath("operation_id", "hrl")));
-        supportingFiles.add(new SupportingFile("request_params.hrl.mustache", "", toIncludeFilePath("request_params", "hrl")));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
             .doNotOverwrite());
     }
