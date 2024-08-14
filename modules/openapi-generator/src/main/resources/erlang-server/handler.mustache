@@ -159,7 +159,8 @@ content_types_provided(Req, State) ->
         {<<"application/json">>, handle_request_json},
         {<<"application/jose+json">>, handle_request_json},
         {<<"application/problem+json">>, handle_request_json},
-        {<<"application/x-pem-file">>, handle_request_file}
+        {<<"application/x-pem-file">>, handle_request_file},
+        {<<"application/pem-certificate-chain">>, handle_request_file}
     ], Req, State}.
 
 -spec malformed_request(Req :: cowboy_req:req(), State :: state()) ->
